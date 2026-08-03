@@ -1,4 +1,5 @@
 ---
+import FeedTheUnicorn from './FeedTheUnicorn.astro';
 ---
 
 <section class="hero" aria-label="train_your_unicorn">
@@ -17,9 +18,9 @@
   <div class="hero__content site-wrap">
     <p class="hero__eyebrow">Startup · Grants · Vibe coding</p>
     <h1 class="hero__brand brand-code">
-      <span class="brand-code__q" aria-hidden="true">"</span>train_your_unicorn<span
+      <span class="brand-code__q" aria-hidden="true">&lt;</span>train_your_unicorn<span
         class="brand-code__q"
-        aria-hidden="true">"</span
+        aria-hidden="true">&gt;</span
       >
     </h1>
     <p class="hero__lead">
@@ -28,12 +29,7 @@
     </p>
     <div class="cta-row">
       <a class="btn" href="#services">Book a brainstorm</a>
-      <a
-        class="btn btn--ghost"
-        href="https://www.buymeacoffee.com/"
-        target="_blank"
-        rel="noopener noreferrer">Buy me a coffee</a
-      >
+      <FeedTheUnicorn />
     </div>
   </div>
 </section>

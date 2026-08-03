@@ -7,14 +7,15 @@ interface Props {
 
 const { variant = 'widget', class: className } = Astro.props;
 const href = 'https://www.buymeacoffee.com/ElenaArrola';
+// Spaces/emoji must be encoded or the image fails to load in the browser
+const buttonSrc =
+  'https://img.buymeacoffee.com/button-api/?text=Feed%20the%20Unicorn&emoji=%F0%9F%A6%84&slug=ElenaArrola&button_colour=ffffff&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00';
 ---
 
 {
   variant === 'widget' ? (
-    <a class={className} href={href}>
-      <img
-        src="https://img.buymeacoffee.com/button-api/?text=Feed the Unicorn&emoji=🦄&slug=ElenaArrola&button_colour=ffffff&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00"
-      />
+    <a class:list={['bmc-btn', className]} href={href} target="_blank" rel="noopener noreferrer">
+      <img src={buttonSrc} alt="Feed the Unicorn" width="217" height="60" />
     </a>
   ) : (
     <a class={className} href={href} target="_blank" rel="noopener noreferrer">
@@ -22,3 +23,18 @@ const href = 'https://www.buymeacoffee.com/ElenaArrola';
     </a>
   )
 }
+
+<style>
+  .bmc-btn {
+    display: inline-flex;
+    align-items: center;
+    line-height: 0;
+    text-decoration: none;
+  }
+
+  .bmc-btn img {
+    height: 42px;
+    width: auto;
+    display: block;
+  }
+</style>
