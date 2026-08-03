@@ -1,0 +1,122 @@
+---
+const projects = [
+  {
+    name: 'Chameleo',
+    text: 'Cross-cultural learning for life abroad — assessment, country roadmaps, and the craft of communicating across difference.',
+    href: 'https://chameleo.world',
+    logo: '/chameleo-logo.svg',
+    logoAlt: 'Chameleo logo',
+  },
+  {
+    name: 'Tada',
+    text: 'A toddler dressing game — pick what to wear for the weather, then hit the big red button for a reward.',
+    href: 'https://calma-sigma.vercel.app',
+    logo: '/tada-logo.png',
+    logoAlt: 'Tada logo',
+  },
+];
+---
+
+<section class="section projects" id="projects">
+  <div class="site-wrap">
+    <p class="section__label">Projects</p>
+    <h2 class="section__title">What I'm building</h2>
+    <p class="section__lead">Own products in progress — not client work, the things I ship myself.</p>
+
+    <ul class="projects__list">
+      {
+        projects.map((project) => (
+          <li class="project">
+            <a
+              class:list={['project__link', project.logo && 'project__link--logo']}
+              href={project.href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {project.logo && (
+                <img
+                  class="project__logo"
+                  src={project.logo}
+                  alt={project.logoAlt}
+                  width="56"
+                  height="56"
+                  decoding="async"
+                />
+              )}
+              <div class="project__body">
+                <h3 class="project__name">{project.name}</h3>
+                <p class="project__text">{project.text}</p>
+                <span class="project__url">{new URL(project.href).hostname}</span>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .projects__list {
+    display: grid;
+    gap: 0;
+  }
+
+  .project {
+    border-top: 1px solid var(--line);
+  }
+
+  .project:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .project__link {
+    display: grid;
+    gap: 1rem 1.25rem;
+    align-items: start;
+    padding-block: 1.25rem;
+    text-decoration: none;
+  }
+
+  .project__link--logo {
+    grid-template-columns: auto 1fr;
+  }
+
+  .project__link:hover {
+    opacity: 1;
+  }
+
+  .project__link:hover .project__name,
+  .project__link:hover .project__url {
+    opacity: 0.72;
+  }
+
+  .project__logo {
+    width: auto;
+    height: 3.5rem;
+    max-width: 9rem;
+    object-fit: contain;
+  }
+
+  .project__name {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin-bottom: 0.55rem;
+    transition: opacity 0.2s var(--ease);
+  }
+
+  .project__text {
+    color: var(--fg-soft);
+    max-width: 40rem;
+    margin-bottom: 0.55rem;
+  }
+
+  .project__url {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    transition: opacity 0.2s var(--ease);
+  }
+</style>
