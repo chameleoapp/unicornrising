@@ -1,0 +1,371 @@
+---
+---
+
+<section class="hero" aria-label="Unicorn Rising">
+  <div class="hero__stage" data-hero-stage>
+    <canvas class="hero__canvas" data-unicorn-pulse aria-hidden="true"></canvas>
+    <img
+      class="hero__mark"
+      src="/Unicorn1.png"
+      alt=""
+      width="893"
+      height="1216"
+      decoding="async"
+      data-unicorn-fallback
+    />
+  </div>
+  <div class="hero__content site-wrap">
+    <p class="hero__eyebrow">Startup · Grants · Vibe coding</p>
+    <h1 class="hero__brand">Unicorn Rising</h1>
+    <p class="hero__lead">
+      Seven years of founder scars. Fresh eyes for beginners — and for people who already know the
+      map but want a sharper reading of the terrain.
+    </p>
+    <div class="cta-row">
+      <a class="btn" href="#services">Book a brainstorm</a>
+      <a
+        class="btn btn--ghost"
+        href="https://www.buymeacoffee.com/"
+        target="_blank"
+        rel="noopener noreferrer">Buy me a coffee</a
+      >
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-rows: auto auto;
+    min-height: 100svh;
+    align-content: center;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .hero__stage {
+    position: relative;
+    width: min(58vw, 280px);
+    aspect-ratio: 893 / 1216;
+    margin-inline: auto;
+    margin-block: clamp(2rem, 6vw, 4rem) 0.75rem;
+    /* allow circular scatter to breathe beyond the unicorn box */
+    overflow: visible;
+  }
+
+  .hero__canvas {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 160%;
+    height: auto;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    display: block;
+    cursor: pointer;
+  }
+
+  .hero__mark {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .hero__mark.is-visible {
+    opacity: 1;
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    padding-block: 0.75rem clamp(2rem, 6vw, 3.5rem);
+    max-width: 40rem;
+    margin-inline: auto;
+    width: min(100% - 2 * var(--space), var(--max));
+    background: #fff;
+  }
+
+  .hero__eyebrow {
+    font-family: var(--font-display);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.55rem;
+  }
+
+  .hero__brand {
+    font-size: clamp(2.35rem, 9.5vw, 5.5rem);
+    font-weight: 800;
+    letter-spacing: -0.045em;
+    line-height: 0.95;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero__lead {
+    color: var(--fg-soft);
+    font-size: clamp(1rem, 2.2vw, 1.2rem);
+    max-width: 34rem;
+    margin-bottom: 1.15rem;
+  }
+
+  @media (max-width: 520px) {
+    .hero {
+      min-height: auto;
+      padding-top: 1.25rem;
+    }
+
+    .hero__stage {
+      width: min(62vw, 200px);
+      margin-top: 1rem;
+    }
+
+    .hero__brand {
+      font-size: clamp(2.2rem, 12vw, 3rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__canvas {
+      display: none;
+    }
+
+    .hero__mark {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  function initUnicornPulse() {
+    const canvas = document.querySelector('[data-unicorn-pulse]');
+    const fallback = document.querySelector('[data-unicorn-fallback]');
+    const stage = document.querySelector('[data-hero-stage]');
+    if (!(canvas instanceof HTMLCanvasElement) || !stage) return;
+    if (canvas.dataset.ready === '1') return;
+    canvas.dataset.ready = '1';
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) {
+      canvas.style.display = 'none';
+      fallback?.classList.add('is-visible');
+      return;
+    }
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      fallback?.classList.add('is-visible');
+      return;
+    }
+
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+    let raf = 0;
+    let phaseStart = performance.now();
+    let speed = 1;
+    /** @type {HTMLImageElement | null} */
+    let sourceImg = null;
+    /** @type {{ ox: number; oy: number; angle: number; dist: number; size: number }[]} */
+    let particles = [];
+
+    const REST = 1800;
+    const EXPAND = 2000;
+    const HOLD = 700;
+    const GATHER = 2200;
+    const SETTLE = 120;
+    const MORPH = 700;
+    const CYCLE = REST + EXPAND + HOLD + GATHER + SETTLE + MORPH;
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      // Canvas is a square larger than the stage for a round scatter cloud
+      const side = Math.max(stage.clientWidth, stage.clientHeight) * 1.6;
+      width = side;
+      height = side;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function easeInOut(t) {
+      return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    }
+
+    function easeOutCubic(t) {
+      return 1 - Math.pow(1 - t, 3);
+    }
+
+    /** @returns {{ scatter: number; image: number; dots: number; size: number }} */
+    function phaseState(now) {
+      const t = ((now - phaseStart) * speed) % CYCLE;
+
+      if (t < REST) return { scatter: 0, image: 1, dots: 0, size: 0.5 };
+
+      if (t < REST + EXPAND) {
+        const u = easeInOut((t - REST) / EXPAND);
+        return {
+          scatter: u,
+          image: 1 - easeOutCubic(Math.min(1, u * 1.5)),
+          dots: Math.min(1, u * 1.6),
+          size: 0.6 + u * 0.7,
+        };
+      }
+
+      if (t < REST + EXPAND + HOLD) {
+        return { scatter: 1, image: 0, dots: 1, size: 1.3 };
+      }
+
+      const after = t - REST - EXPAND - HOLD;
+
+      if (after < GATHER) {
+        const u = easeInOut(after / GATHER);
+        return { scatter: 1 - u, image: 0, dots: 1, size: 1.3 - u * 0.5 };
+      }
+
+      if (after < GATHER + SETTLE) {
+        return { scatter: 0, image: 0, dots: 1, size: 0.8 };
+      }
+
+      const morphU = easeOutCubic((after - GATHER - SETTLE) / MORPH);
+      return {
+        scatter: 0,
+        image: morphU,
+        dots: 1 - morphU,
+        size: 0.8 - morphU * 0.25,
+      };
+    }
+
+    function sampleImage(img) {
+      const off = document.createElement('canvas');
+      const maxSide = 220;
+      const ratio = Math.min(maxSide / img.naturalWidth, maxSide / img.naturalHeight);
+      off.width = Math.max(1, Math.round(img.naturalWidth * ratio));
+      off.height = Math.max(1, Math.round(img.naturalHeight * ratio));
+      const octx = off.getContext('2d', { willReadFrequently: true });
+      if (!octx) return [];
+
+      octx.clearRect(0, 0, off.width, off.height);
+      octx.drawImage(img, 0, 0, off.width, off.height);
+      const { data } = octx.getImageData(0, 0, off.width, off.height);
+      const pts = [];
+
+      for (let y = 0; y < off.height; y += 2) {
+        for (let x = 0; x < off.width; x += 2) {
+          const i = (y * off.width + x) * 4;
+          const a = data[i + 3];
+          if (a < 50) continue;
+
+          const nx = x / off.width - 0.5;
+          const ny = y / off.height - 0.5;
+          pts.push({
+            ox: nx,
+            oy: ny,
+            angle: Math.random() * Math.PI * 2,
+            // fill a disk (sqrt so density is even), not a ring
+            dist: Math.sqrt(Math.random()) * 0.95,
+            size: 1.15 + (a / 255) * 1.1 + Math.random() * 0.45,
+          });
+        }
+      }
+
+      if (pts.length > 2200) {
+        const keep = [];
+        const stride = Math.ceil(pts.length / 2200);
+        for (let i = 0; i < pts.length; i += stride) keep.push(pts[i]);
+        return keep;
+      }
+      return pts;
+    }
+
+    function draw(now) {
+      const { scatter: p, image: imageAlpha, dots: particleAlpha, size: dotScale } =
+        phaseState(now);
+      ctx.clearRect(0, 0, width, height);
+
+      const cx = width / 2;
+      const cy = height / 2;
+      // Unicorn sits in the middle at stage proportions
+      const stageW = stage.clientWidth;
+      const stageH = stage.clientHeight;
+      const drawH = stageH * 0.96;
+      const drawW = drawH * (893 / 1216);
+      const padX = cx - drawW / 2;
+      const padY = cy - drawH / 2;
+      const maxR = Math.min(width, height) * 0.42;
+
+      if (sourceImg && imageAlpha > 0.01) {
+        ctx.save();
+        ctx.globalAlpha = imageAlpha;
+        for (const [dx, dy] of [
+          [0, 0],
+          [0.6, 0],
+          [-0.6, 0],
+          [0, 0.6],
+          [0, -0.6],
+        ]) {
+          ctx.drawImage(sourceImg, padX + dx, padY + dy, drawW, drawH);
+        }
+        ctx.restore();
+      }
+
+      if (particleAlpha > 0.01) {
+        for (const particle of particles) {
+          const homeX = cx + particle.ox * drawW;
+          const homeY = cy + particle.oy * drawH;
+          const scatterX = cx + Math.cos(particle.angle) * particle.dist * maxR;
+          const scatterY = cy + Math.sin(particle.angle) * particle.dist * maxR;
+          const x = homeX + (scatterX - homeX) * p;
+          const y = homeY + (scatterY - homeY) * p;
+
+          ctx.fillStyle = `rgba(10,10,10,${particleAlpha * 0.9})`;
+          ctx.beginPath();
+          ctx.arc(x, y, Math.max(0.9, particle.size * dotScale), 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      raf = requestAnimationFrame(draw);
+    }
+
+    function burst() {
+      phaseStart = performance.now() - REST;
+      speed = 1.35;
+      window.setTimeout(() => {
+        speed = 1;
+      }, (EXPAND + HOLD + GATHER + SETTLE + MORPH) / 1.35);
+    }
+
+    function start(img, pts) {
+      if (!pts.length) {
+        canvas.style.display = 'none';
+        fallback?.classList.add('is-visible');
+        return;
+      }
+      sourceImg = img;
+      particles = pts;
+      phaseStart = performance.now();
+      resize();
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(draw);
+      window.addEventListener('resize', resize);
+      canvas.addEventListener('click', burst);
+    }
+
+    const img = new Image();
+    img.decoding = 'async';
+    img.onload = () => start(img, sampleImage(img));
+    img.onerror = () => {
+      canvas.style.display = 'none';
+      fallback?.classList.add('is-visible');
+    };
+    img.src = '/Unicorn1.png';
+  }
+
+  initUnicornPulse();
+  document.addEventListener('astro:page-load', initUnicornPulse);
+</script>

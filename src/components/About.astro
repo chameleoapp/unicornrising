@@ -1,0 +1,138 @@
+---
+const composition = [
+  {
+    label: 'Civil engineer',
+    text: 'MS in Civil Engineering and real estate management. Designed hospitals and perinatal centers — structure, systems, and stakes that matter.',
+  },
+  {
+    label: 'Another education',
+    text: 'An attempt at pedagogy and English philology — begun, not finished; still part of the wiring.',
+  },
+  {
+    label: 'Block-scheme mind',
+    text: 'I think in flowcharts. First book at five: an encyclopedia of cybernetics. There I saw block schemes and understood: this is how I think.',
+  },
+  {
+    label: 'Speed',
+    text: 'Very fast reading — an edge when dropping into any product or grant brief.',
+  },
+  {
+    label: 'Languages',
+    text: 'Love of foreign languages and everything around them: tone, nuance, the keys to communication.',
+  },
+  {
+    label: 'People',
+    text: 'Diversity — and the craft of finding the keys to communication across difference.',
+  },
+  {
+    label: 'Right now',
+    text: 'Quantum physics.',
+  },
+  {
+    label: 'Home',
+    text: 'Raising children and dogs. Building healthy relationships with a partner and with kids.',
+  },
+];
+---
+
+<section class="section about" id="about">
+  <div class="site-wrap">
+    <p class="section__label">About</p>
+    <h2 class="section__title">What I'm made of</h2>
+    <p class="section__lead">
+      Engineer language, on purpose. A composition list — not a polished bio essay.
+    </p>
+
+    <ol class="composition">
+      {
+        composition.map((item, i) => (
+          <li class="composition__item">
+            <span class="composition__index" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <div>
+              <h3 class="composition__label">{item.label}</h3>
+              <p class="composition__text">{item.text}</p>
+            </div>
+            {i < composition.length - 1 && (
+              <span class="composition__arrow" aria-hidden="true">
+                ↓
+              </span>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+
+    <aside class="startup-layer">
+      <p class="startup-layer__label">Startup layer</p>
+      <p>
+        Seven years in startups. CEO experience across SaaS, deeptech, and edtech. Vibe coding and
+        grants — for people just entering, and for those who already know the map.
+      </p>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .composition {
+    display: grid;
+    gap: 0;
+    margin-bottom: 1.75rem;
+  }
+
+  .composition__item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 0.65rem 1rem;
+    padding-block: 0.95rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .composition__item:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .composition__index {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    padding-top: 0.2rem;
+  }
+
+  .composition__label {
+    font-size: 1.15rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .composition__text {
+    color: var(--fg-soft);
+    max-width: 42rem;
+  }
+
+  .composition__arrow {
+    position: absolute;
+    left: 0.85rem;
+    bottom: -0.35rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+    opacity: 0.7;
+  }
+
+  .startup-layer {
+    border-left: 2px solid var(--fg);
+    padding-left: 1.25rem;
+    max-width: 42rem;
+  }
+
+  .startup-layer__label {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+</style>

@@ -1,0 +1,76 @@
+---
+import FeedTheUnicorn from './FeedTheUnicorn.astro';
+
+const services = [
+  {
+    title: 'Brainstorm',
+    text: 'For students and first-timers — and for people who already know the game but want a clean, outside read. CEO scars from SaaS, deeptech, and edtech, offered as a working session, not a lecture.',
+  },
+  {
+    title: 'Vibe coding',
+    text: 'Help shipping the product you are already shaping: structure, pace, and a builder who can sit in the mess with you.',
+  },
+  {
+    title: 'Grants support',
+    text: 'Analytical, sequential thinking for Finnish and European grant processes — wins on the record, curiosity for yours.',
+  },
+];
+---
+
+<section class="section services" id="services">
+  <div class="site-wrap">
+    <p class="section__label">Services</p>
+    <h2 class="section__title">How we can work</h2>
+    <p class="section__lead">
+      Built for people entering startup life — and for those who want a fresh pair of eyes on what
+      they already know.
+    </p>
+
+    <div class="services__list">
+      {
+        services.map((service) => (
+          <article class="service">
+            <h3 class="service__title">{service.title}</h3>
+            <p class="service__text">{service.text}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="services__pay">
+      Pay via <FeedTheUnicorn variant="link" /> — or by invoice.
+    </p>
+  </div>
+</section>
+
+<style>
+  .services__list {
+    display: grid;
+    gap: 0;
+  }
+
+  .service {
+    padding-block: 1.1rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .service:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .service__title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .service__text {
+    color: var(--fg-soft);
+    max-width: 40rem;
+  }
+
+  .services__pay {
+    margin-top: 1.25rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+</style>

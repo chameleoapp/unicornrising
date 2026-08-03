@@ -1,0 +1,146 @@
+---
+const pathname = Astro.url.pathname;
+const links = [
+  { href: '/#about', label: 'About' },
+  { href: '/#services', label: 'Services' },
+  { href: '/#events', label: 'Events' },
+  { href: '/#grants', label: 'Grants' },
+  { href: '/blog', label: 'Blog' },
+];
+---
+
+<header class="header">
+  <div class="header__inner site-wrap">
+    <a class="header__brand" href="/">Unicorn Rising</a>
+    <button
+      class="header__toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      data-nav-toggle
+    >
+      <span class="sr-only">Menu</span>
+      <span aria-hidden="true">Menu</span>
+    </button>
+    <nav class="header__nav" id="site-nav" data-nav>
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              'header__link',
+              pathname.startsWith('/blog') && link.href === '/blog' && 'is-active',
+            ]}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 3.75rem;
+  }
+
+  .header__brand {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+
+  .header__toggle {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid var(--line);
+    padding: 0.45rem 0.7rem;
+  }
+
+  .header__nav {
+    display: none;
+    position: absolute;
+    inset-inline: 0;
+    top: 100%;
+    flex-direction: column;
+    gap: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    padding: 0.5rem var(--space) 1rem;
+  }
+
+  .header__nav.is-open {
+    display: flex;
+  }
+
+  .header__link {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    text-decoration: none;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .header__link.is-active {
+    color: var(--muted);
+  }
+
+  @media (min-width: 800px) {
+    .header__toggle {
+      display: none;
+    }
+
+    .header__nav {
+      display: flex;
+      position: static;
+      flex-direction: row;
+      align-items: center;
+      gap: 1.5rem;
+      border: 0;
+      padding: 0;
+      background: transparent;
+    }
+
+    .header__link {
+      border: 0;
+      padding: 0;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector('[data-nav-toggle]');
+  const nav = document.querySelector('[data-nav]');
+
+  toggle?.addEventListener('click', () => {
+    const open = nav?.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(Boolean(open)));
+  });
+
+  nav?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      nav.classList.remove('is-open');
+      toggle?.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>

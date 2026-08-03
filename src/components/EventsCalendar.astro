@@ -1,0 +1,294 @@
+---
+import { getCollection } from 'astro:content';
+
+const events = (await getCollection('events')).sort(
+  (a, b) => a.data.date.getTime() - b.data.date.getTime(),
+);
+
+const eventsJson = events.map((event) => ({
+  id: event.id,
+  title: event.data.title,
+  date: event.data.date.toISOString().slice(0, 10),
+  place: event.data.place ?? null,
+  link: event.data.link ?? null,
+  description: event.data.description,
+}));
+---
+
+<section class="section events" id="events">
+  <div class="site-wrap">
+    <p class="section__label">Events</p>
+    <h2 class="section__title">Calendar</h2>
+    <p class="section__lead">
+      Tap a day to see what is on. Startup gatherings, talks, and moments worth showing up for.
+    </p>
+
+    <div class="calendar" data-calendar>
+      <div class="calendar__toolbar">
+        <button type="button" class="calendar__nav" data-cal-prev aria-label="Previous month"
+          >←</button
+        >
+        <h3 class="calendar__month" data-cal-label></h3>
+        <button type="button" class="calendar__nav" data-cal-next aria-label="Next month">→</button>
+      </div>
+      <div class="calendar__weekdays" aria-hidden="true">
+        <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span
+        ><span>Su</span>
+      </div>
+      <div class="calendar__grid" data-cal-grid role="grid" aria-label="Event calendar"></div>
+      <div class="calendar__detail" data-cal-detail>
+        <p class="calendar__hint">Select a day with a mark to see events.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="application/json" id="events-data" is:inline set:html={JSON.stringify(eventsJson)}
+/>
+
+<style>
+  .calendar {
+    max-width: 36rem;
+  }
+
+  .calendar__toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .calendar__month {
+    font-size: 1.25rem;
+  }
+
+  .calendar__nav {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid var(--line);
+    font-size: 1.1rem;
+    transition: border-color 0.2s var(--ease);
+  }
+
+  .calendar__nav:hover {
+    border-color: var(--fg);
+  }
+
+  .calendar__weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+    margin-bottom: 0.35rem;
+    font-family: var(--font-display);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .calendar__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.25rem;
+  }
+
+  .calendar__day {
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    position: relative;
+    border: 1px solid transparent;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    color: var(--fg-soft);
+  }
+
+  .calendar__day:disabled {
+    color: var(--line);
+    cursor: default;
+  }
+
+  .calendar__day.has-event {
+    color: var(--fg);
+  }
+
+  .calendar__day.has-event::after {
+    content: '';
+    position: absolute;
+    bottom: 0.35rem;
+    width: 0.28rem;
+    height: 0.28rem;
+    border-radius: 50%;
+    background: var(--fg);
+  }
+
+  .calendar__day.is-selected {
+    border-color: var(--fg);
+  }
+
+  .calendar__detail {
+    margin-top: 1.15rem;
+    border-top: 1px solid var(--line);
+    padding-top: 0.9rem;
+    min-height: 5rem;
+  }
+
+  .calendar__hint,
+  .calendar__empty {
+    color: var(--muted);
+  }
+
+  .calendar__event {
+    padding-block: 0.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .calendar__event-title {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .calendar__event-meta {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .calendar__event-desc {
+    color: var(--fg-soft);
+  }
+</style>
+
+<script>
+  function initCalendar() {
+    const root = document.querySelector('[data-calendar]');
+    const dataEl = document.getElementById('events-data');
+    if (!root || !dataEl) return;
+
+    /** @type {{ id: string; title: string; date: string; place: string | null; link: string | null; description: string }[]} */
+    const events = JSON.parse(dataEl.textContent || '[]');
+    const byDate = new Map();
+    for (const event of events) {
+      const list = byDate.get(event.date) || [];
+      list.push(event);
+      byDate.set(event.date, list);
+    }
+
+    const label = root.querySelector('[data-cal-label]');
+    const grid = root.querySelector('[data-cal-grid]');
+    const detail = root.querySelector('[data-cal-detail]');
+    const prev = root.querySelector('[data-cal-prev]');
+    const next = root.querySelector('[data-cal-next]');
+    if (!label || !grid || !detail || !prev || !next) return;
+
+    let view = new Date();
+    view.setDate(1);
+    let selected = null;
+
+    const monthNames = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+
+    function key(y, m, d) {
+      return `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    }
+
+    function showDetail(dateKey) {
+      const dayEvents = byDate.get(dateKey) || [];
+      if (!dayEvents.length) {
+        detail.innerHTML = `<p class="calendar__empty">No events on this day.</p>`;
+        return;
+      }
+
+      detail.innerHTML = dayEvents
+        .map((event) => {
+          const place = event.place ? `<div class="calendar__event-meta">${event.place}</div>` : '';
+          const link = event.link
+            ? `<p><a href="${event.link}" target="_blank" rel="noopener noreferrer">Details</a></p>`
+            : '';
+          return `<article class="calendar__event">
+            <h4 class="calendar__event-title">${event.title}</h4>
+            ${place}
+            <p class="calendar__event-desc">${event.description}</p>
+            ${link}
+          </article>`;
+        })
+        .join('');
+    }
+
+    function render() {
+      const year = view.getFullYear();
+      const month = view.getMonth();
+      label.textContent = `${monthNames[month]} ${year}`;
+      grid.innerHTML = '';
+
+      const firstDay = new Date(year, month, 1);
+      let start = firstDay.getDay() - 1;
+      if (start < 0) start = 6;
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      for (let i = 0; i < start; i++) {
+        const cell = document.createElement('button');
+        cell.type = 'button';
+        cell.className = 'calendar__day';
+        cell.disabled = true;
+        cell.setAttribute('aria-hidden', 'true');
+        grid.appendChild(cell);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateKey = key(year, month, day);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'calendar__day';
+        btn.textContent = String(day);
+        btn.setAttribute('aria-label', `${monthNames[month]} ${day}`);
+        if (byDate.has(dateKey)) btn.classList.add('has-event');
+        if (selected === dateKey) btn.classList.add('is-selected');
+        btn.addEventListener('click', () => {
+          selected = dateKey;
+          render();
+          showDetail(dateKey);
+        });
+        grid.appendChild(btn);
+      }
+    }
+
+    prev.addEventListener('click', () => {
+      view.setMonth(view.getMonth() - 1);
+      render();
+    });
+    next.addEventListener('click', () => {
+      view.setMonth(view.getMonth() + 1);
+      render();
+    });
+
+    render();
+
+    const upcoming = events.find((e) => e.date >= new Date().toISOString().slice(0, 10));
+    if (upcoming) {
+      selected = upcoming.date;
+      const [y, m] = upcoming.date.split('-').map(Number);
+      view = new Date(y, m - 1, 1);
+      render();
+      showDetail(upcoming.date);
+    }
+  }
+
+  initCalendar();
+  document.addEventListener('astro:page-load', initCalendar);
+</script>

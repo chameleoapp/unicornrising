@@ -1,0 +1,81 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-GB', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+---
+
+<BaseLayout title={`${post.data.title} · Unicorn Rising`} description={post.data.description}>
+  <article class="section post">
+    <div class="site-wrap post__inner">
+      <p class="section__label">
+        <a href="/blog">Blog</a>
+      </p>
+      <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+      <h1 class="post__title">{post.data.title}</h1>
+      <p class="post__desc">{post.data.description}</p>
+      <div class="post__body">
+        <Content />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .post__inner {
+    max-width: 42rem;
+  }
+
+  .post time {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .post__title {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    margin-bottom: 1rem;
+  }
+
+  .post__desc {
+    color: var(--muted);
+    font-size: 1.15rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .post__body :global(p) {
+    margin-bottom: 0.9rem;
+    color: var(--fg-soft);
+  }
+
+  .post__body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .section__label a {
+    text-decoration: none;
+  }
+</style>

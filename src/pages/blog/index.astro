@@ -1,0 +1,91 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString('en-GB', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+---
+
+<BaseLayout
+  title="Blog · Unicorn Rising"
+  description="Notes on startups, grants, events, and building in public."
+>
+  <section class="section blog-index">
+    <div class="site-wrap">
+      <p class="section__label">Blog</p>
+      <h1 class="section__title">Writing</h1>
+      <p class="section__lead">Startup world, grants, events, and field notes.</p>
+
+      <ul class="post-list">
+        {
+          posts.map((post) => (
+            <li class="post-list__item">
+              <a class="post-list__link" href={`/blog/${post.id}/`}>
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {formatDate(post.data.pubDate)}
+                </time>
+                <span class="post-list__title">{post.data.title}</span>
+                <span class="post-list__desc">{post.data.description}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .blog-index .section__title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .post-list {
+    display: grid;
+    gap: 0;
+  }
+
+  .post-list__item {
+    border-top: 1px solid var(--line);
+  }
+
+  .post-list__item:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .post-list__link {
+    display: grid;
+    gap: 0.35rem;
+    padding-block: 1.1rem;
+    text-decoration: none;
+  }
+
+  .post-list__link time {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .post-list__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 3vw, 1.85rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .post-list__desc {
+    color: var(--fg-soft);
+    max-width: 40rem;
+  }
+</style>
