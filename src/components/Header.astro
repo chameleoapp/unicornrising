@@ -11,7 +11,12 @@ const links = [
 
 <header class="header">
   <div class="header__inner site-wrap">
-    <a class="header__brand" href="/">Unicorn Rising</a>
+    <a class="header__brand brand-code" href="/"
+      ><span class="brand-code__q" aria-hidden="true">"</span>train_your_unicorn<span
+        class="brand-code__q"
+        aria-hidden="true">"</span
+      ></a
+    >
     <button
       class="header__toggle"
       type="button"
@@ -59,10 +64,7 @@ const links = [
   }
 
   .header__brand {
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: 1.05rem;
-    letter-spacing: -0.02em;
+    font-size: 0.95rem;
     text-decoration: none;
   }
 

@@ -6,14 +6,18 @@ const year = new Date().getFullYear();
 
 <footer class="footer">
   <div class="site-wrap footer__inner">
-    <p class="footer__brand">Unicorn Rising</p>
+    <p class="footer__brand brand-code">
+      <span class="brand-code__q" aria-hidden="true">"</span>train_your_unicorn<span
+        class="brand-code__q"
+        aria-hidden="true">"</span
+      >
+    </p>
     <p class="footer__note">Services can be paid by invoice. Tips via Feed the Unicorn.</p>
     <div class="footer__links">
       <FeedTheUnicorn variant="link" />
       <a href="mailto:hello@unicornrising.example">hello@unicornrising.example</a>
-      <a href="https://t.me/" target="_blank" rel="noopener noreferrer">Telegram</a>
     </div>
-    <p class="footer__copy">&copy; {year} Unicorn Rising</p>
+    <p class="footer__copy">&copy; {year} train_your_unicorn</p>
   </div>
 </footer>
 
@@ -29,9 +33,7 @@ const year = new Date().getFullYear();
   }
 
   .footer__brand {
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
   }
 
   .footer__note,

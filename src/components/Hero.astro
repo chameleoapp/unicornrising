@@ -1,7 +1,7 @@
 ---
 ---
 
-<section class="hero" aria-label="Unicorn Rising">
+<section class="hero" aria-label="train_your_unicorn">
   <div class="hero__stage" data-hero-stage>
     <canvas class="hero__canvas" data-unicorn-pulse aria-hidden="true"></canvas>
     <img
@@ -16,10 +16,15 @@
   </div>
   <div class="hero__content site-wrap">
     <p class="hero__eyebrow">Startup · Grants · Vibe coding</p>
-    <h1 class="hero__brand">Unicorn Rising</h1>
+    <h1 class="hero__brand brand-code">
+      <span class="brand-code__q" aria-hidden="true">"</span>train_your_unicorn<span
+        class="brand-code__q"
+        aria-hidden="true">"</span
+      >
+    </h1>
     <p class="hero__lead">
-      Seven years of founder scars. Fresh eyes for beginners — and for people who already know the
-      map but want a sharper reading of the terrain.
+      Seven years as hired CEO and CBDO. Now building my own projects. Fresh eyes for beginners —
+      and for people who already know the map but want a sharper reading of the terrain.
     </p>
     <div class="cta-row">
       <a class="btn" href="#services">Book a brainstorm</a>
@@ -99,10 +104,10 @@
   }
 
   .hero__brand {
-    font-size: clamp(2.35rem, 9.5vw, 5.5rem);
-    font-weight: 800;
-    letter-spacing: -0.045em;
-    line-height: 0.95;
+    font-size: clamp(1.55rem, 6.5vw, 3.75rem);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
     margin-bottom: 0.75rem;
   }
 
@@ -125,7 +130,9 @@
     }
 
     .hero__brand {
-      font-size: clamp(2.2rem, 12vw, 3rem);
+      font-size: clamp(1.35rem, 7.5vw, 2rem);
+      white-space: normal;
+      overflow-wrap: anywhere;
     }
   }
 
