@@ -34,14 +34,16 @@ const projects = [
               rel="noopener noreferrer"
             >
               {project.logo && (
-                <img
-                  class="project__logo"
-                  src={project.logo}
-                  alt={project.logoAlt}
-                  width="56"
-                  height="56"
-                  decoding="async"
-                />
+                <span class="project__mark">
+                  <img
+                    class="project__logo"
+                    src={project.logo}
+                    alt={project.logoAlt}
+                    width="56"
+                    height="56"
+                    decoding="async"
+                  />
+                </span>
               )}
               <div class="project__body">
                 <h3 class="project__name">{project.name}</h3>
@@ -79,7 +81,7 @@ const projects = [
   }
 
   .project__link--logo {
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 4.75rem 1fr;
   }
 
   .project__link:hover {
@@ -91,11 +93,19 @@ const projects = [
     opacity: 0.72;
   }
 
+  .project__mark {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 4.75rem;
+    height: 2.75rem;
+  }
+
   .project__logo {
-    width: auto;
-    height: 3.5rem;
-    max-width: 9rem;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
+    object-position: left center;
   }
 
   .project__name {
