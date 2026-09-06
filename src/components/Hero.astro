@@ -1,5 +1,6 @@
 ---
 import FeedTheUnicorn from './FeedTheUnicorn.astro';
+import hero from '../content/site/hero.json';
 ---
 
 <section class="hero" aria-label="train_your_unicorn">
@@ -16,19 +17,16 @@ import FeedTheUnicorn from './FeedTheUnicorn.astro';
     />
   </div>
   <div class="hero__content site-wrap">
-    <p class="hero__eyebrow">Startup · Grants · Vibe coding</p>
+    <p class="hero__eyebrow">{hero.eyebrow}</p>
     <h1 class="hero__brand brand-code">
       <span class="brand-code__q" aria-hidden="true">&lt;</span>train_your_unicorn<span
         class="brand-code__q"
         aria-hidden="true">&gt;</span
       >
     </h1>
-    <p class="hero__lead">
-      Seven years as hired CEO and CBDO. Now building my own projects. Fresh eyes for beginners —
-      and for people who already know the map but want a sharper reading of the terrain.
-    </p>
+    <p class="hero__lead">{hero.lead}</p>
     <div class="cta-row">
-      <a class="btn" href="#services">Book a brainstorm</a>
+      <a class="btn" href={hero.ctaHref}>{hero.ctaLabel}</a>
       <FeedTheUnicorn />
     </div>
   </div>

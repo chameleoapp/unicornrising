@@ -1,0 +1,28 @@
+{
+  "label": "Services",
+  "title": "How we can work",
+  "lead": "Two ways in — the full map if you’re just starting, a sharp outside read if you already know the terrain.",
+  "items": [
+    {
+      "title": "From idea to ship",
+      "text": "For first-timers: lean canvas, customer interviews, pitches for clients and investors, then build, team, and support — the full arc from idea to something that runs."
+    },
+    {
+      "title": "Brainstorm",
+      "text": "For people who already know the game. A working session with clean eyes on what you’ve got — scars from CEO and CBDO roles across SaaS, deeptech, and edtech."
+    },
+    {
+      "title": "Vibe coding",
+      "text": "Help shipping the product you are already shaping: structure, pace, and a builder who can sit in the mess with you."
+    },
+    {
+      "title": "Grants support",
+      "text": "Analytical, sequential thinking for Finnish and European grant processes — wins on the record, curiosity for yours."
+    },
+    {
+      "title": "Network",
+      "text": "Years in corporate roles and seven years in startups have built a broad network across sales, HR, finance, and beyond. Ask me if you need the right person."
+    }
+  ],
+  "payNote": "Pay via"
+}

@@ -1,15 +1,15 @@
 ---
+import quote from '../content/site/quote.json';
 ---
 
 <section class="section quote" aria-label="Quote">
   <div class="site-wrap quote__inner">
     <blockquote class="quote__text">
-      <p>
-        You know, sometimes all you need is 20 seconds of insane courage, just literally 20 seconds of
-        embarrassing bravery, and I promise you something great will come of it.
-      </p>
+      <p>{quote.text}</p>
       <footer class="quote__attr">
-        <cite>— Benjamin Mee, <em>We Bought a Zoo</em></cite>
+        <cite
+          >— {quote.attribution}{quote.work && <>, <em>{quote.work}</em></>}</cite
+        >
       </footer>
     </blockquote>
   </div>

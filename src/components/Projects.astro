@@ -1,27 +1,14 @@
 ---
-const projects = [
-  {
-    name: 'Chameleo',
-    text: 'Cross-cultural learning for life abroad — assessment, country roadmaps, and the craft of communicating across difference.',
-    href: 'https://chameleo.world',
-    logo: '/chameleo-logo.svg',
-    logoAlt: 'Chameleo logo',
-  },
-  {
-    name: 'Tada',
-    text: 'A toddler dressing game — pick what to wear for the weather, then hit the big red button for a reward.',
-    href: 'https://tada.vercel.app',
-    logo: '/tada-logo.png',
-    logoAlt: 'Tada logo',
-  },
-];
+import projectsContent from '../content/site/projects.json';
+
+const projects = projectsContent.items;
 ---
 
 <section class="section projects" id="projects">
   <div class="site-wrap">
-    <p class="section__label">Projects</p>
-    <h2 class="section__title">What I'm building</h2>
-    <p class="section__lead">Own products in progress — not client work, the things I ship myself.</p>
+    <p class="section__label">{projectsContent.label}</p>
+    <h2 class="section__title">{projectsContent.title}</h2>
+    <p class="section__lead">{projectsContent.lead}</p>
 
     <ul class="projects__list">
       {

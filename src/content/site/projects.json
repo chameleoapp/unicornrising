@@ -1,0 +1,21 @@
+{
+  "label": "Projects",
+  "title": "What I'm building",
+  "lead": "Own products in progress — not client work, the things I ship myself.",
+  "items": [
+    {
+      "name": "Chameleo",
+      "text": "Cross-cultural learning for life abroad — assessment, country roadmaps, and the craft of communicating across difference.",
+      "href": "https://chameleo.world",
+      "logo": "/chameleo-logo.svg",
+      "logoAlt": "Chameleo logo"
+    },
+    {
+      "name": "Tada",
+      "text": "A toddler dressing game — pick what to wear for the weather, then hit the big red button for a reward.",
+      "href": "https://tada.vercel.app",
+      "logo": "/tada-logo.png",
+      "logoAlt": "Tada logo"
+    }
+  ]
+}

@@ -8,6 +8,7 @@ import Services from '../components/Services.astro';
 import EventsCalendar from '../components/EventsCalendar.astro';
 import Grants from '../components/Grants.astro';
 import Contact from '../components/Contact.astro';
+import blogTeaser from '../content/site/blog-teaser.json';
 ---
 
 <BaseLayout>
@@ -20,12 +21,10 @@ import Contact from '../components/Contact.astro';
   <Grants />
   <section class="section blog-teaser">
     <div class="site-wrap">
-      <p class="section__label">Blog</p>
-      <h2 class="section__title">Writing from the field</h2>
-      <p class="section__lead">
-        Startup world, events, grants, and personal notes — published as they happen.
-      </p>
-      <a class="btn" href="/blog">Read the blog</a>
+      <p class="section__label">{blogTeaser.label}</p>
+      <h2 class="section__title">{blogTeaser.title}</h2>
+      <p class="section__lead">{blogTeaser.lead}</p>
+      <a class="btn" href={blogTeaser.ctaHref}>{blogTeaser.ctaLabel}</a>
     </div>
   </section>
   <Contact />

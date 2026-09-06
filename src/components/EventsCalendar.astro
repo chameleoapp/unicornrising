@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import eventsSection from '../content/site/events-section.json';
 
 const events = (await getCollection('events')).sort(
   (a, b) => a.data.date.getTime() - b.data.date.getTime(),
@@ -17,11 +18,9 @@ const eventsJson = events.map((event) => ({
 
 <section class="section events" id="events">
   <div class="site-wrap">
-    <p class="section__label">Events</p>
-    <h2 class="section__title">Calendar</h2>
-    <p class="section__lead">
-      Tap a day to see what is on. Startup gatherings, talks, and moments worth showing up for.
-    </p>
+    <p class="section__label">{eventsSection.label}</p>
+    <h2 class="section__title">{eventsSection.title}</h2>
+    <p class="section__lead">{eventsSection.lead}</p>
 
     <div class="calendar" data-calendar>
       <div class="calendar__toolbar">

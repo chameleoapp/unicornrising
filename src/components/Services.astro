@@ -1,38 +1,15 @@
 ---
 import FeedTheUnicorn from './FeedTheUnicorn.astro';
+import servicesContent from '../content/site/services.json';
 
-const services = [
-  {
-    title: 'From idea to ship',
-    text: 'For first-timers: lean canvas, customer interviews, pitches for clients and investors, then build, team, and support — the full arc from idea to something that runs.',
-  },
-  {
-    title: 'Brainstorm',
-    text: 'For people who already know the game. A working session with clean eyes on what you’ve got — scars from CEO and CBDO roles across SaaS, deeptech, and edtech.',
-  },
-  {
-    title: 'Vibe coding',
-    text: 'Help shipping the product you are already shaping: structure, pace, and a builder who can sit in the mess with you.',
-  },
-  {
-    title: 'Grants support',
-    text: 'Analytical, sequential thinking for Finnish and European grant processes — wins on the record, curiosity for yours.',
-  },
-  {
-    title: 'Network',
-    text: 'Years in corporate roles and seven years in startups have built a broad network across sales, HR, finance, and beyond. Ask me if you need the right person.',
-  },
-];
+const services = servicesContent.items;
 ---
 
 <section class="section services" id="services">
   <div class="site-wrap">
-    <p class="section__label">Services</p>
-    <h2 class="section__title">How we can work</h2>
-    <p class="section__lead">
-      Two ways in — the full map if you’re just starting, a sharp outside read if you already know
-      the terrain.
-    </p>
+    <p class="section__label">{servicesContent.label}</p>
+    <h2 class="section__title">{servicesContent.title}</h2>
+    <p class="section__lead">{servicesContent.lead}</p>
 
     <div class="services__list">
       {
@@ -46,7 +23,8 @@ const services = [
     </div>
 
     <p class="services__pay">
-      Pay via <FeedTheUnicorn variant="link" /> — or by invoice.
+      {servicesContent.payNote}{' '}
+      <FeedTheUnicorn variant="link" /> — or by invoice.
     </p>
   </div>
 </section>

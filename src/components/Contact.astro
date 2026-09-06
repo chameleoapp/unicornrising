@@ -1,14 +1,13 @@
 ---
 import FeedTheUnicorn from './FeedTheUnicorn.astro';
+import contact from '../content/site/contact.json';
 ---
 
 <section class="section contact" id="contact">
   <div class="site-wrap">
-    <p class="section__label">Contact</p>
-    <h2 class="section__title">Say hello</h2>
-    <p class="section__lead">
-      Book a brainstorm or ask about grants. Services can be invoiced.
-    </p>
+    <p class="section__label">{contact.label}</p>
+    <h2 class="section__title">{contact.title}</h2>
+    <p class="section__lead">{contact.lead}</p>
 
     <div class="cta-row">
       <FeedTheUnicorn />
