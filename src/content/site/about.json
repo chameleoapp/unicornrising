@@ -1,41 +1,41 @@
 {
   "label": "About",
-  "title": "What I'm made of",
+  "title": "what i'm made of",
   "lead": "Engineer language, on purpose. A composition list — not a polished bio essay.",
   "items": [
     {
-      "label": "Civil engineer",
+      "label": "civil engineer",
       "text": "MS in Civil Engineering and real estate management. Designed hospitals and perinatal centers — structure, systems, and stakes that matter."
     },
     {
-      "label": "Another education",
+      "label": "another education",
       "text": "An attempt at pedagogy and English philology — begun, not finished; still part of the wiring."
     },
     {
-      "label": "Block-scheme mind",
+      "label": "block-scheme mind",
       "text": "I think in flowcharts. First book at five: an encyclopedia of cybernetics. There I saw block schemes and understood: this is how I think."
     },
     {
-      "label": "Speed",
+      "label": "speed",
       "text": "Very fast reading — an edge when dropping into any product or grant brief."
     },
     {
-      "label": "Languages",
+      "label": "languages",
       "text": "Love of foreign languages and everything around them: tone, nuance, the keys to communication. Learned English, German, and Japanese, with Finnish and Spanish currently joining the mix."
     },
     {
-      "label": "People",
+      "label": "people",
       "text": "Diversity — and the craft of finding the keys to communication across difference."
     },
     {
-      "label": "My values",
+      "label": "my values",
       "text": "being honest enough with yourself to know what you actually want, and brave enough to act on it"
     },
     {
-      "label": "Right now",
+      "label": "right now",
       "text": "Quantum physics.Partnership.Kids.Mission."
     }
   ],
-  "startupLabel": "Startup layer",
+  "startupLabel": "startup layer",
   "startupText": "Seven years in startups — hired as CEO and CBDO across SaaS, deeptech, and EdTech. Now building my own projects. Vibe coding, product launch and business development. "
 }
