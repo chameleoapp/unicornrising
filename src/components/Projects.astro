@@ -17,7 +17,7 @@ const projects = projectsContent.items.map((project) => {
 <section class="section projects" id="projects">
   <div class="site-wrap">
     <p class="section__label">{projectsContent.label}</p>
-    <h2 class="section__title">{projectsContent.title}</h2>
+    <h2 class="section__title brand-code">{projectsContent.title}</h2>
     <p class="section__lead">{projectsContent.lead}</p>
 
     <ul class="projects__list">
@@ -44,7 +44,7 @@ const projects = projectsContent.items.map((project) => {
                   </span>
                 )}
                 <div class="project__body">
-                  <h3 class="project__name">{project.name}</h3>
+                  <h3 class="project__name brand-code">{project.name}</h3>
                   <p class="project__text">{project.text}</p>
                   {project.hostname && <span class="project__url">{project.hostname}</span>}
                 </div>
@@ -64,7 +64,7 @@ const projects = projectsContent.items.map((project) => {
                   </span>
                 )}
                 <div class="project__body">
-                  <h3 class="project__name">{project.name}</h3>
+                  <h3 class="project__name brand-code">{project.name}</h3>
                   <p class="project__text">{project.text}</p>
                 </div>
               </div>

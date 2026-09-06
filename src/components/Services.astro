@@ -8,14 +8,14 @@ const services = servicesContent.items;
 <section class="section services" id="services">
   <div class="site-wrap">
     <p class="section__label">{servicesContent.label}</p>
-    <h2 class="section__title">{servicesContent.title}</h2>
+    <h2 class="section__title brand-code">{servicesContent.title}</h2>
     <p class="section__lead">{servicesContent.lead}</p>
 
     <div class="services__list">
       {
         services.map((service) => (
           <article class="service">
-            <h3 class="service__title">{service.title}</h3>
+            <h3 class="service__title brand-code">{service.title}</h3>
             <p class="service__text">{service.text}</p>
           </article>
         ))

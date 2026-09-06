@@ -4,7 +4,7 @@
   --muted: #6b6b6b;
   --line: #e4e4e4;
   --fg-soft: #3a3a3a;
-  --font-display: "Syne", "Arial Narrow", sans-serif;
+  --font-display: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
   --font-body: "Literata", "Georgia", serif;
   --font-mono: "IBM Plex Mono", "SF Mono", "Menlo", monospace;
   --space: clamp(1rem, 3vw, 2rem);
@@ -54,8 +54,8 @@ h1,
 h2,
 h3 {
   font-family: var(--font-mono);
-  font-weight: 600;
-  line-height: 1.1;
+  font-weight: 500;
+  line-height: 1.15;
   letter-spacing: -0.02em;
   margin: 0;
 }
@@ -102,7 +102,7 @@ button {
   font-size: clamp(1.35rem, 3vw, 1.85rem);
   font-weight: 500;
   letter-spacing: -0.02em;
-  max-width: 22ch;
+  max-width: 28ch;
   margin-bottom: 0.85rem;
 }
 
@@ -155,6 +155,9 @@ button {
   font-family: var(--font-mono);
   font-weight: 500;
   letter-spacing: -0.02em;
+}
+
+.brand-code--mark {
   white-space: nowrap;
 }
 

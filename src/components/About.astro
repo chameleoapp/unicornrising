@@ -7,7 +7,7 @@ const composition = about.items;
 <section class="section about" id="about">
   <div class="site-wrap">
     <p class="section__label">{about.label}</p>
-    <h2 class="section__title">{about.title}</h2>
+    <h2 class="section__title brand-code">{about.title}</h2>
     <p class="section__lead">{about.lead}</p>
 
     <ol class="composition">
@@ -18,7 +18,7 @@ const composition = about.items;
               {String(i + 1).padStart(2, '0')}
             </span>
             <div>
-              <h3 class="composition__label">{item.label}</h3>
+              <h3 class="composition__label brand-code">{item.label}</h3>
               <p class="composition__text">{item.text}</p>
             </div>
             {i < composition.length - 1 && (
