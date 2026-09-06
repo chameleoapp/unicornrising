@@ -60,7 +60,7 @@ export default config({
           fields.object({
             name: fields.text({ label: 'Name' }),
             text: fields.text({ label: 'Text', multiline: true }),
-            href: fields.url({ label: 'URL' }),
+            href: fields.url({ label: 'URL', validation: { isRequired: false } }),
             logo: fields.text({ label: 'Logo path (optional)' }),
             logoAlt: fields.text({ label: 'Logo alt text' }),
           }),

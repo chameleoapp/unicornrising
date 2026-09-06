@@ -19,7 +19,10 @@
     },
     {
       "name": "Consortio",
-      "text": "AI-powered workspace for managing grant applications, solo or as a consortium"
+      "text": "AI-powered workspace for managing grant applications, solo or as a consortium",
+      "href": "https://consortio.vercel.app",
+      "logo": "/consortio-logo.svg",
+      "logoAlt": "Consortio logo"
     }
   ]
 }

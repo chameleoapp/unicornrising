@@ -1,7 +1,17 @@
 ---
 import projectsContent from '../content/site/projects.json';
 
-const projects = projectsContent.items;
+const projects = projectsContent.items.map((project) => {
+  let hostname: string | null = null;
+  if (project.href) {
+    try {
+      hostname = new URL(project.href).hostname;
+    } catch {
+      hostname = null;
+    }
+  }
+  return { ...project, hostname };
+});
 ---
 
 <section class="section projects" id="projects">
@@ -14,30 +24,51 @@ const projects = projectsContent.items;
       {
         projects.map((project) => (
           <li class="project">
-            <a
-              class:list={['project__link', project.logo && 'project__link--logo']}
-              href={project.href}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {project.logo && (
-                <span class="project__mark">
-                  <img
-                    class="project__logo"
-                    src={project.logo}
-                    alt={project.logoAlt}
-                    width="56"
-                    height="56"
-                    decoding="async"
-                  />
-                </span>
-              )}
-              <div class="project__body">
-                <h3 class="project__name">{project.name}</h3>
-                <p class="project__text">{project.text}</p>
-                <span class="project__url">{new URL(project.href).hostname}</span>
+            {project.href ? (
+              <a
+                class:list={['project__link', project.logo && 'project__link--logo']}
+                href={project.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {project.logo && (
+                  <span class="project__mark">
+                    <img
+                      class="project__logo"
+                      src={project.logo}
+                      alt={project.logoAlt}
+                      width="56"
+                      height="56"
+                      decoding="async"
+                    />
+                  </span>
+                )}
+                <div class="project__body">
+                  <h3 class="project__name">{project.name}</h3>
+                  <p class="project__text">{project.text}</p>
+                  {project.hostname && <span class="project__url">{project.hostname}</span>}
+                </div>
+              </a>
+            ) : (
+              <div class:list={['project__link', project.logo && 'project__link--logo']}>
+                {project.logo && (
+                  <span class="project__mark">
+                    <img
+                      class="project__logo"
+                      src={project.logo}
+                      alt={project.logoAlt}
+                      width="56"
+                      height="56"
+                      decoding="async"
+                    />
+                  </span>
+                )}
+                <div class="project__body">
+                  <h3 class="project__name">{project.name}</h3>
+                  <p class="project__text">{project.text}</p>
+                </div>
               </div>
-            </a>
+            )}
           </li>
         ))
       }
@@ -71,12 +102,12 @@ const projects = projectsContent.items;
     grid-template-columns: 4.75rem 1fr;
   }
 
-  .project__link:hover {
+  a.project__link:hover {
     opacity: 1;
   }
 
-  .project__link:hover .project__name,
-  .project__link:hover .project__url {
+  a.project__link:hover .project__name,
+  a.project__link:hover .project__url {
     opacity: 0.72;
   }
 
