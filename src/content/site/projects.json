@@ -16,6 +16,10 @@
       "href": "https://tada.vercel.app",
       "logo": "/tada-logo.png",
       "logoAlt": "Tada logo"
+    },
+    {
+      "name": "Consortio",
+      "text": "AI-powered workspace for managing grant applications, solo or as a consortium"
     }
   ]
 }
