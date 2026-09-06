@@ -1,21 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" role="img" aria-label="Consortio">
   <rect x="2.5" y="2.5" width="59" height="59" rx="15" fill="#ffffff" stroke="#0f766e" stroke-width="3.25"/>
-  <!--
-    Nodes at 210°, 330°, 90° around (32, 34), r≈13.
-    Arcs use r≈16 with white gaps near nodes via stroke-dasharray.
-  -->
-  <g fill="none" stroke-linecap="round" stroke-width="3.35">
-    <!-- Top: left → right -->
-    <path d="M23.6 24.4 C26.2 17.8 37.8 17.8 40.4 24.4" stroke="#0d9488"/>
-    <path d="M27.4 20.6 C29.8 18.2 34.2 18.2 36.6 20.6" stroke="#99f6e4"/>
-    <!-- Right: right → bottom -->
-    <path d="M44.8 31.8 C50.8 37.2 47.6 48.6 37.6 49.4" stroke="#0d9488"/>
-    <path d="M46.4 37.2 C48.4 41.6 45.6 46.4 40.8 48.2" stroke="#99f6e4"/>
-    <!-- Left: bottom → left -->
-    <path d="M26.4 49.4 C16.4 48.6 13.2 37.2 19.2 31.8" stroke="#0d9488"/>
-    <path d="M23.2 48.2 C18.4 46.4 15.6 41.6 17.6 37.2" stroke="#99f6e4"/>
-  </g>
-  <circle cx="21.8" cy="28.2" r="5.5" fill="#0f766e"/>
-  <circle cx="42.2" cy="28.2" r="5.5" fill="#0f766e"/>
-  <circle cx="32" cy="46.8" r="5.5" fill="#0f766e"/>
+  <!-- Bold open C — lettermark for Consortio, no face geometry -->
+  <path
+    d="M47 20.5 A18 18 0 1 0 47 43.5"
+    stroke="#0f766e"
+    stroke-width="8"
+    stroke-linecap="round"
+    fill="none"
+  />
+  <path
+    d="M47 20.5 A18 18 0 0 0 36.5 14.8"
+    stroke="#5eead4"
+    stroke-width="8"
+    stroke-linecap="round"
+    fill="none"
+  />
 </svg>
