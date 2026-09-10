@@ -135,15 +135,6 @@ import hero from '../content/site/hero.json';
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .hero__canvas {
-      display: none;
-    }
-
-    .hero__mark {
-      opacity: 1;
-    }
-  }
 </style>
 
 <script>
@@ -154,13 +145,6 @@ import hero from '../content/site/hero.json';
     if (!(canvas instanceof HTMLCanvasElement) || !stage) return;
     if (canvas.dataset.ready === '1') return;
     canvas.dataset.ready = '1';
-
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) {
-      canvas.style.display = 'none';
-      fallback?.classList.add('is-visible');
-      return;
-    }
 
     const ctx = canvas.getContext('2d');
     if (!ctx) {
